@@ -17,6 +17,7 @@ import org.restlet.resource.Options;
 import org.restlet.resource.Put;
 
 import dispositivo.interfaces.IDispositivo;
+import dispositivo.interfaces.IFuncion;
 
 public class Dispositivo_Recurso extends Recurso {
 	
@@ -27,12 +28,20 @@ public class Dispositivo_Recurso extends Recurso {
 		
 		try {
 			jsonResult.put("id", dispositivo.getId());
-			if ( dispositivo.getFunciones() != null ) {
+
+			if (dispositivo.getFunciones() != null) {
 				JSONArray arrayFunciones = new JSONArray();
+
+				for (IFuncion funcion : dispositivo.getFunciones()) {
+					JSONObject funcionJson = new JSONObject();
+					funcionJson.put("id", funcion.getId());
+					funcionJson.put("estado", funcion.getStatus());
+
+					arrayFunciones.put(funcionJson);
+				}
 
 				jsonResult.put("funciones", arrayFunciones);
 			}
-
 		} catch (JSONException e) {
 		}
 		

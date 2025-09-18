@@ -13,7 +13,7 @@
                 "ttmi050",
                 "ttmi050.iot.upv.es",
                 8182,
-                "tcp://mqttserver:1883"]
+                "tcp://ttmi008.iot.upv.es:1883"]
         },
         {
             "type": "java",
