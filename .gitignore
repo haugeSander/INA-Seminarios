@@ -1,2 +1,4 @@
 ./_runtime
 .DS_Store
+/bin
+*.jar

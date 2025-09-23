@@ -10,6 +10,8 @@ public class Funcion implements IFuncion {
 
 	protected FuncionStatus initialStatus = null;
 	protected FuncionStatus status = null;
+
+	private boolean habilitado = true;
 	
 	private String loggerId = null;
 	
@@ -35,6 +37,7 @@ public class Funcion implements IFuncion {
 	@Override
 	public IFuncion encender() {
 
+		if (!habilitado) return this;
 		MySimpleLogger.info(this.loggerId, "==> Encender");
 		this.setStatus(FuncionStatus.ON);
 		return this;
@@ -95,6 +98,25 @@ public class Funcion implements IFuncion {
 	@Override
 	public IFuncion detener() {
 		return this;
+	}
+
+	@Override
+	public Boolean habilitar() {
+		this.setStatus(FuncionStatus.ON);
+		this.habilitado = true;
+		return true;		
+	}
+
+	@Override
+	public Boolean deshabilitar() {
+		this.setStatus(FuncionStatus.OFF);
+		this.habilitado = false;
+		return true;		
+	}
+
+	@Override
+	public Boolean isHabilitado() {
+		return this.habilitado;
 	}
 	
 	

@@ -7,6 +7,10 @@ public interface IFuncion {
 	public IFuncion iniciar();
 	public IFuncion detener();
 	
+	public Boolean isHabilitado();
+	public Boolean habilitar();
+	public Boolean deshabilitar();
+
 	public IFuncion encender();
 	public IFuncion apagar();
 	public IFuncion parpadear();
