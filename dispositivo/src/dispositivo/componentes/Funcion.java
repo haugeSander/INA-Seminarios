@@ -1,12 +1,14 @@
 package dispositivo.componentes;
 
+import dispositivo.api.mqtt.FuncionPublisher_APIMQTT;
 import dispositivo.interfaces.FuncionStatus;
 import dispositivo.interfaces.IFuncion;
 import dispositivo.utils.MySimpleLogger;
 
 public class Funcion implements IFuncion {
-	
+	private FuncionPublisher_APIMQTT publisher;
 	protected String id = null;
+	protected String deviceId = null;
 
 	protected FuncionStatus initialStatus = null;
 	protected FuncionStatus status = null;
@@ -15,18 +17,20 @@ public class Funcion implements IFuncion {
 	
 	private String loggerId = null;
 	
-	public static Funcion build(String id) {
-		return new Funcion(id, FuncionStatus.OFF);
+	public static Funcion build(String id, String deviceId, FuncionPublisher_APIMQTT publisher) {
+		return new Funcion(id, FuncionStatus.OFF, deviceId, publisher);
 	}
 	
-	public static Funcion build(String id, FuncionStatus initialStatus) {
-		return new Funcion(id, initialStatus);
+	public static Funcion build(String id, FuncionStatus initialStatus, String deviceId, FuncionPublisher_APIMQTT publisher) {
+		return new Funcion(id, initialStatus, deviceId, publisher);
 	}
 
-	protected Funcion(String id, FuncionStatus initialStatus) {
+	protected Funcion(String id, FuncionStatus initialStatus, String deviceId, FuncionPublisher_APIMQTT publisher) {
 		this.id = id;
 		this.initialStatus = initialStatus;
+    	this.deviceId = deviceId;
 		this.loggerId = "Funcion " + id;
+		this.publisher = publisher;
 	}
 		
 	@Override
@@ -86,6 +90,10 @@ public class Funcion implements IFuncion {
 	
 	protected IFuncion setStatus(FuncionStatus status) {
 		this.status = status;
+		if (publisher != null) {
+			String topic = String.format("dispositivo/%s/funcion/%s/info", deviceId, id);
+			publisher.publish_status(topic, id, status.toString());
+		}
 		return this;
 	}
 	
