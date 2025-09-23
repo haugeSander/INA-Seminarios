@@ -102,14 +102,12 @@ public class Funcion implements IFuncion {
 
 	@Override
 	public Boolean habilitar() {
-		this.setStatus(FuncionStatus.ON);
 		this.habilitado = true;
 		return true;		
 	}
 
 	@Override
 	public Boolean deshabilitar() {
-		this.setStatus(FuncionStatus.OFF);
 		this.habilitado = false;
 		return true;		
 	}

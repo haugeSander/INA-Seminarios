@@ -86,6 +86,10 @@ public class Funcion_Recurso extends Recurso {
 				f.apagar();
 			else if ( action.equalsIgnoreCase("parpadear") )
 				f.parpadear();
+			//else if ( action.equalsIgnoreCase("habilitar") )
+			//	f.habilitar();
+			//else if ( action.equalsIgnoreCase("deshabilitar") )
+			//	f.deshabilitar();
 			else {
 				MySimpleLogger.warn("Funcion-Recurso", "Acción '" + payload + "' no reconocida. Sólo admitidas: encender, apagar o parpadear");
 				return this.generateResponseWithErrorCode(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -105,7 +109,7 @@ public class Funcion_Recurso extends Recurso {
         return new StringRepresentation(resultJSON.toString(), MediaType.APPLICATION_JSON);
 
 	}
-    
+	
     
     
 	@Options

@@ -9,6 +9,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import dispositivo.interfaces.Configuracion;
 import dispositivo.interfaces.IDispositivo;
@@ -55,39 +57,36 @@ public class Dispositivo_APIMQTT implements MqttCallback {
 
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
-		
-		String payload = new String(message.getPayload());
+		JSONObject payload = null;
+		try {
+			payload = new JSONObject(new String(message.getPayload()));
+		} catch (JSONException e) {
+			MySimpleLogger.warn(this.loggerId, "Mensaje no válido en topic " + topic);
+			return;
+
+		}
 		
 		System.out.println("-------------------------------------------------");
 		System.out.println("| Topic:" + topic);
 		System.out.println("| Message: " + payload);
 		System.out.println("-------------------------------------------------");
-		
-		// DO SOME MAGIC HERE!
-		
-		//
-		// Obtenemos el id de la función
-		//   Los topics están organizados de la siguiente manera:
-		//         $topic_base/dispositivo/funcion/$ID-FUNCION/commamnd
-		//   Donde el $topic_base es parametrizable al arrancar el dispositivo
-		//   y la $ID-FUNCION es el identificador de la dunción
-		
+				
 		String[] topicNiveles = topic.split("/");
 		String funcionId = topicNiveles[topicNiveles.length-2];
+		//String deviceId = topicNiveles[topicNiveles.length-4];
 		
 		IFuncion f = this.dispositivo.getFuncion(funcionId);
 		if ( f == null ) {
 			MySimpleLogger.warn(this.loggerId, "No encontrada funcion " + funcionId);
 			return;
 		}
-		
-		
+
 		//
 		// Definimos una API con mensajes de acciones básicos
 		//
 
 		// Ejecutamos acción indicada en campo 'accion' del JSON recibido
-		String action = payload;
+		String action = payload.getString("accion");
 		
 		if ( action.equalsIgnoreCase("encender") )
 			f.encender();
@@ -98,8 +97,6 @@ public class Dispositivo_APIMQTT implements MqttCallback {
 		else
 			MySimpleLogger.warn(this.loggerId, "Acción '" + payload + "' no reconocida. Sólo admitidas: encender, apagar o parpadear");
 
-		
-		
 	}
 
 	/**
