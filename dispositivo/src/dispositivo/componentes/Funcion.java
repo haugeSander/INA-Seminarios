@@ -89,6 +89,10 @@ public class Funcion implements IFuncion {
 	}
 	
 	protected IFuncion setStatus(FuncionStatus status) {
+		if (!isHabilitado()) {
+			MySimpleLogger.info(loggerId, "Ignored state change to " + status + " because disabled");
+        	return this;
+		}
 		this.status = status;
 		if (publisher != null) {
 			String topic = String.format("dispositivo/%s/funcion/%s/info", deviceId, id);
