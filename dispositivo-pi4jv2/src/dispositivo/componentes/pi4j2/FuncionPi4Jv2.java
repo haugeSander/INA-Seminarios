@@ -32,7 +32,7 @@ public class FuncionPi4Jv2 extends Funcion implements ISignallable {
 
 	
 	protected FuncionPi4Jv2(String id, int gpioPin, FuncionStatus initialStatus, Context pi4jContext) {
-		super(id, initialStatus);
+		super(id, initialStatus, id, null);
 		this.gpioPin=gpioPin;
 		this.pi4jContext = pi4jContext;
 		

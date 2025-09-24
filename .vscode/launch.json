@@ -4,14 +4,15 @@
     // Per a més informació, visiteu: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "java",
             "name": "Dispositivo",
             "request": "launch",
             "mainClass": "dispositivo.iniciador.DispositivoIniciador",
             "args": [
-                "ttmi050",
-                "ttmi050.iot.upv.es",
+                "ttmi056",
+                "ttmi056.iot.upv.es",
                 8182,
                 "tcp://ttmi008.iot.upv.es:1883"]
         },
@@ -25,6 +26,18 @@
                 "ttmi050.iot.upv.es",
                 8182,
                 "tcp://mqttserver:1883"]
+        },
+        {
+            "type": "java",
+            "name": "Dispositivo (Local MQTT)",
+            "request": "launch",
+            "mainClass": "dispositivo.iniciador.DispositivoIniciador",
+            "args": [
+                "test-device",
+                "localhost",
+                8183,
+                "tcp://localhost:1883"
+            ]
         }
     ]
 }

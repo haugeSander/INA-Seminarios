@@ -205,6 +205,9 @@ public class Dispositivo_APIMQTT implements MqttCallback {
 		for (IFuncion f : this.dispositivo.getFunciones())
 			this.subscribe(this.calculateCommandTopic(f));
 
+		// subscribe to device-level command topic
+    	this.subscribe(this.calculateDeviceCommandTopic());
+
 	}
 
 	public void detener() {
@@ -219,6 +222,10 @@ public class Dispositivo_APIMQTT implements MqttCallback {
 
 	protected String calculateInfoTopic(IFuncion f) {
 		return Configuracion.TOPIC_BASE + "dispositivo/" + dispositivo.getId() + "/funcion/" + f.getId() + "/info";
+	}
+
+	protected String calculateDeviceCommandTopic() {
+    	return Configuracion.TOPIC_BASE + "dispositivo/" + dispositivo.getId() + "/comandos";
 	}
 
 }

@@ -1,5 +1,8 @@
 package dispositivo.iniciador;
 
+import org.eclipse.paho.client.mqttv3.MqttException;
+
+import dispositivo.api.mqtt.FuncionPublisher_APIMQTT;
 import dispositivo.componentes.Dispositivo;
 import dispositivo.componentes.Funcion;
 import dispositivo.interfaces.FuncionStatus;
@@ -22,15 +25,21 @@ public class DispositivoIniciador {
 		String mqttBroker = args[3];
 		
 		IDispositivo d = Dispositivo.build(deviceId, deviceIP, Integer.valueOf(port), mqttBroker);
-		
+		FuncionPublisher_APIMQTT publisher = null;
+		try {
+			publisher = new FuncionPublisher_APIMQTT(mqttBroker, "pub-" + deviceId);
+		} catch (MqttException e) {
+			e.printStackTrace();
+		}
+
 		// Añadimos funciones al dispositivo
-		IFuncion f1 = Funcion.build("f1", FuncionStatus.OFF);
+		IFuncion f1 = Funcion.build("f1", FuncionStatus.OFF, deviceId, publisher);
 		d.addFuncion(f1);
 		
-		IFuncion f2 = Funcion.build("f2", FuncionStatus.OFF);
+		IFuncion f2 = Funcion.build("f2", FuncionStatus.OFF, deviceId, publisher);
 		d.addFuncion(f2);
 
-		IFuncion f3 = Funcion.build("f3", FuncionStatus.BLINK);
+		IFuncion f3 = Funcion.build("f3", FuncionStatus.BLINK, deviceId, publisher);
 		d.addFuncion(f3);
 
 		// Arrancamos el dispositivo
