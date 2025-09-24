@@ -211,9 +211,13 @@ public class Dispositivo_APIMQTT implements MqttCallback {
 	}
 
 	public void detener() {
-
+		try {
+			this.myClient.close();
+			MySimpleLogger.info(this.loggerId, "Detenido servicio MQTT");
+		} catch (MqttException e) {
+			e.printStackTrace();
+		}
 		// To-Do
-
 	}
 
 	protected String calculateCommandTopic(IFuncion f) {
