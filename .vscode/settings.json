@@ -1,20 +1,9 @@
 {
     "java.project.sourcePaths": [
-        "dispositivo-pi4jv2/src",
-        "dispositivo/src"
+        "dispositivo-pi4jv2\\src",
+        "dispositivo\\src"
     ],
     "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/dispositivo-pi4jv2/lib/pi4j-library-pigpio.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/lib/org.eclipse.paho.client.mqttv3-1.2.5.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/dispositivo-pi4jv2/lib/slf4j-simple.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/dispositivo-pi4jv2/lib/slf4j-api.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/dispositivo-pi4jv2/lib/pi4j-plugin-raspberrypi.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/lib/org.restlet-3.0-M1.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/lib/java-json.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/dispositivo-pi4jv2/lib/pi4j-core.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/dispositivo-pi4jv2/lib/pi4j-core-javadoc.jar",
-        "/Users/haugesander/Development/INA/seminari-2-vscode-alumno/dispositivo-pi4jv2/lib/pi4j-plugin-pigpio.jar"
-    ],
+    "java.project.referencedLibraries": [ "**/lib/*.jar"],
     "java.dependency.packagePresentation": "hierarchical"
 }
