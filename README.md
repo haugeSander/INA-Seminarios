@@ -61,18 +61,18 @@ sudo apt install openjdk-11-jdk maven
 This section documents where each exercise solution has been implemented in the codebase:
 
 ### Exercise 5.1: Third Function (f3)
-**Location:** `dispositivo-core/src/main/java/dispositivo/componentes/Dispositivo.java`
+**Location:** `dispositivo-core/src/main/java/dispositivo/iniciador/DispositivoIniciador.java`
 - Added `f3` function initialization in constructor
 - Default state set to BLINK mode
 
 ### Exercise 5.2: Device Status JSON
 **Location:** `dispositivo-core/src/main/java/dispositivo/api/rest/Dispositivo_Recurso.java`
-- Implemented `doGet()` method to return device status with all functions
+- Expanded `serialize()` method to return device status with all functions
 - JSON format includes device ID, enabled status, and function states
 
 ### Exercise 5.3: Function Status JSON  
 **Location:** `dispositivo-core/src/main/java/dispositivo/api/rest/Funcion_Recurso.java`
-- Implemented `doGet()` method for individual function status
+- Added `jsonResult.put("estado", f.getStatus());` into `serialize()` method for individual function status
 - Returns JSON with function ID and current state
 
 ### Exercise 5.4: Device Enable/Disable
@@ -82,7 +82,7 @@ This section documents where each exercise solution has been implemented in the 
 
 ### Exercise 5.5: REST Device Control
 **Location:** `dispositivo-core/src/main/java/dispositivo/api/rest/Dispositivo_Recurso.java`
-- Implemented `doPut()` method to handle enable/disable commands
+- Added status return for `serialize` method: `jsonResult.put("habilitado", dispositivo.isHabilitado());`.
 - Accepts JSON payload with "activar"/"desactivar" actions
 
 ### Exercise 5.6: MQTT Topic Configuration
@@ -109,6 +109,7 @@ This section documents where each exercise solution has been implemented in the 
 **Location:** `task10-run.sh` and `semaforo-controller.sh`
 - Bash scripts coordinate two traffic light devices
 - Implements intersection control logic with timing sequences
+- Shell script instead of semaforo controller which most people would make, see how to run it furhter down
 
 ### Exercise 5.11: Master-Slave Controller
 **Location:** `ejercicio_11/src/main/java/ejercicio11/MaestroEsclavoController.java`
@@ -116,60 +117,7 @@ This section documents where each exercise solution has been implemented in the 
 - Monitors master device and replicates state changes to slaves
 - Separate Maven module with its own build configuration
 
-## Exercises Overview
-
-### Exercise 5.1: Add Third Function
-Add function `f3` to the device (starts in BLINK mode by default).
-
-### Exercise 5.2: Device Status JSON
-Implement REST GET response for `/dispositivo`:
-```json
-{
-  "id": "ttmi051",
-  "habilitado": true,
-  "funciones": [
-    {"id": "f1", "estado": "ON"},
-    {"id": "f2", "estado": "OFF"},
-    {"id": "f3", "estado": "BLINK"}
-  ]
-}
-```
-
-### Exercise 5.3: Function Status JSON
-Implement REST GET response for `/dispositivo/funcion/{id}`:
-```json
-{"id": "f1", "estado": "ON"}
-```
-
-### Exercise 5.4: Enable/Disable Device
-Add device enable/disable capability that blocks all function modifications when disabled.
-
-### Exercise 5.5: Extend REST API
-Add PUT support to `/dispositivo` for enabling/disabling:
-```json
-{"accion": "activar"}  // or "desactivar"
-```
-
-### Exercise 5.6: MQTT Topic Configuration
-The `TOPIC_BASE` property defines the common prefix for all MQTT topics, ensuring consistent topic structure.
-
-### Exercise 5.7: MQTT JSON Commands
-Implement JSON format for MQTT function commands:
-```json
-{"accion": "encender"}  // "apagar" or "parpadear"
-```
-Topic: `dispositivo/{deviceId}/funcion/{funcionId}/comandos`
-
-### Exercise 5.8: MQTT Device Enable/Disable
-Extend MQTT API to enable/disable device via:
-Topic: `dispositivo/{deviceId}/comandos`
-```json
-{"accion": "habilitar"}  // or "deshabilitar"
-```
-
-### Exercise 5.9: Function Status Publishing
-Implement automatic status publishing to MQTT when function state changes:
-Topic: `dispositivo/{deviceId}/funcion/{funcionId}/info`
+## Exercises Extra Details
 
 ### Exercise 5.10: Traffic Light Controller
 Implement a traffic light intersection controller coordinating two devices.
@@ -326,7 +274,7 @@ java -jar target/maestro-esclavo-1.0.0.jar tcp://localhost:1883 ttmi050 ttmi051,
 Returns device and all function states.
 
 **Enable/Disable Device** - `PUT /dispositivo`
-Payload: `{"accion": "activar"}` or `{"accion": "desactivar"}`
+Payload: `{"accion": "habilitar"}` or `{"accion": "deshabilitar"}`
 
 **Function Status** - `GET /dispositivo/funcion/{funcionId}`
 Returns specific function state.
@@ -344,12 +292,12 @@ Payload: `{"accion": "encender"}`, `{"accion": "apagar"}`, or `{"accion": "parpa
 ## Testing Tools
 
 ### MQTT Clients
-- **MQTTX** - Modern cross-platform client
+- **MQTTX** - Modern cross-platform client (We used)
 - **MQTT Explorer** - Visual topic browser
 - **mosquitto_pub/sub** - Command-line tools
 
 ### REST Clients
-- **Postman** - Full-featured API testing
+- **Postman/Insomnia** - Full-featured API testing
 - **curl** - Command-line testing
 - **Advanced REST Client** - Browser-based
 
