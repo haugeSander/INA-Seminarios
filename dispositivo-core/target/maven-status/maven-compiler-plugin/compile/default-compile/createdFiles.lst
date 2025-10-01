@@ -1,0 +1,17 @@
+dispositivo/iniciador/DispositivoIniciador.class
+dispositivo/api/rest/Dispositivo_APIREST.class
+dispositivo/api/rest/Funcion_Recurso.class
+dispositivo/api/iot/infraestructure/Dispositivo_RegistradorMQTT.class
+dispositivo/componentes/Dispositivo.class
+dispositivo/api/rest/Recurso.class
+dispositivo/interfaces/Configuracion.class
+dispositivo/componentes/Funcion.class
+dispositivo/componentes/Funcion$1.class
+dispositivo/api/mqtt/FuncionPublisher_APIMQTT.class
+dispositivo/interfaces/IFuncion.class
+dispositivo/interfaces/IDispositivo.class
+dispositivo/api/mqtt/Dispositivo_APIMQTT.class
+dispositivo/interfaces/FuncionStatus.class
+dispositivo/utils/MySimpleLogger.class
+dispositivo/api/rest/Dispositivo_Recurso.class
+dispositivo/api/rest/Dispositivo_RESTApplication.class

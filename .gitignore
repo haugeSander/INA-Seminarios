@@ -3,3 +3,5 @@
 /bin
 *.jar
 pub-*/
+
+maestro-esclavo-*/

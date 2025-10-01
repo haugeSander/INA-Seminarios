@@ -1,0 +1,16 @@
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/interfaces/IDispositivo.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/api/rest/Recurso.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/componentes/Funcion.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/api/rest/Dispositivo_APIREST.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/api/iot/infraestructure/Dispositivo_RegistradorMQTT.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/utils/MySimpleLogger.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/iniciador/DispositivoIniciador.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/api/rest/Funcion_Recurso.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/interfaces/FuncionStatus.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/api/mqtt/Dispositivo_APIMQTT.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/api/mqtt/FuncionPublisher_APIMQTT.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/api/rest/Dispositivo_RESTApplication.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/interfaces/Configuracion.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/interfaces/IFuncion.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/componentes/Dispositivo.java
+/Users/haugesander/Development/INA/INA-Seminarios/dispositivo-core/src/main/java/dispositivo/api/rest/Dispositivo_Recurso.java

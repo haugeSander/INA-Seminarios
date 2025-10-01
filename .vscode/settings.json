@@ -1,9 +1,11 @@
 {
     "java.project.sourcePaths": [
-        "dispositivo-pi4jv2\\src",
-        "dispositivo\\src"
+        "dispositivo-pi4jv2",
+        "dispositivo",
+        "lib"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [ "**/lib/*.jar"],
-    "java.dependency.packagePresentation": "hierarchical"
+    "java.dependency.packagePresentation": "hierarchical",
+    "kiroAgent.configureMCP": "Disabled"
 }
