@@ -1,21 +1,28 @@
 #!/bin/bash
 set -e
 
-# Config
-BROKER="tcp://localhost:1883"
-IP="localhost"
+read -p "Use other than localhost as broker and IP? (y/N): " -n 1 -r
 
-# Start the two devices in the background
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+  BROKER="tcp://localhost:1883"
+  IP="localhost"
+else
+  echo "\nInput broker URL: "
+  read BROKER
+  
+  echo "Input preferred IP: "
+  read IP
+fi
+
+echo "Running with IP: $IP, and broker: $BROKER"
+
 java -jar INA-Seminarios.jar sem1 $IP 8182 $BROKER &
 PID1=$!
 java -jar INA-Seminarios.jar sem2 $IP 8183 $BROKER &
 PID2=$!
 
-# Give them time to connect
+trap 'kill $PID1 $PID2' EXIT
+
 sleep 5
+./semaforo-test.sh "$IP"
 
-# Launch the semaforo controller loop
-./semaforo-test.sh localhost
-
-# If you want to clean up when semaforo-test exits:
-kill $PID1 $PID2

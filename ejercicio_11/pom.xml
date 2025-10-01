@@ -1,4 +1,4 @@
-<project ...>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
   <groupId>es.upv.ina</groupId>
   <artifactId>maestro-esclavo</artifactId>
@@ -19,14 +19,13 @@
       <artifactId>json</artifactId>
       <version>20211205</version>
     </dependency>
-    <!-- Si queréis usar Configuracion de vuestro proyecto 'dispositivo' 
+    <!-- Si queréis usar Configuracion de vuestro proyecto 'dispositivo'
          lo ideal es instalar ese proyecto en el repo local y añadir dependencia aquí.
     -->
   </dependencies>
 
   <build>
     <plugins>
-      <!-- Shade para jar "fat" -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -38,7 +37,7 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>ejercicio511.MaestroEsclavoController</mainClass>
+                  <mainClass>ejercicio11.MaestroEsclavoController</mainClass>
                 </transformer>
               </transformers>
             </configuration>
