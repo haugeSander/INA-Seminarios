@@ -56,6 +56,66 @@ sudo apt install openjdk-11-jdk maven
 - BCM 22 (Pin 15): Green LED (f3)
 - BCM 9 (Pin 9): Ground
 
+## Exercise Solutions - Implementation Details
+
+This section documents where each exercise solution has been implemented in the codebase:
+
+### Exercise 5.1: Third Function (f3)
+**Location:** `dispositivo-core/src/main/java/dispositivo/componentes/Dispositivo.java`
+- Added `f3` function initialization in constructor
+- Default state set to BLINK mode
+
+### Exercise 5.2: Device Status JSON
+**Location:** `dispositivo-core/src/main/java/dispositivo/api/rest/Dispositivo_Recurso.java`
+- Implemented `doGet()` method to return device status with all functions
+- JSON format includes device ID, enabled status, and function states
+
+### Exercise 5.3: Function Status JSON  
+**Location:** `dispositivo-core/src/main/java/dispositivo/api/rest/Funcion_Recurso.java`
+- Implemented `doGet()` method for individual function status
+- Returns JSON with function ID and current state
+
+### Exercise 5.4: Device Enable/Disable
+**Location:** `dispositivo-core/src/main/java/dispositivo/componentes/Dispositivo.java`
+- Added `habilitado` boolean field and getter/setter methods
+- Function modifications blocked when device is disabled
+
+### Exercise 5.5: REST Device Control
+**Location:** `dispositivo-core/src/main/java/dispositivo/api/rest/Dispositivo_Recurso.java`
+- Implemented `doPut()` method to handle enable/disable commands
+- Accepts JSON payload with "activar"/"desactivar" actions
+
+### Exercise 5.6: MQTT Topic Configuration
+**Location:** `dispositivo-core/src/main/java/dispositivo/api/mqtt/Dispositivo_APIMQTT.java`
+- `TOPIC_BASE` constant defines common topic prefix
+- Ensures consistent topic structure across all MQTT operations
+
+### Exercise 5.7: MQTT JSON Commands
+**Location:** `dispositivo-core/src/main/java/dispositivo/api/mqtt/Dispositivo_APIMQTT.java`
+- Enhanced `messageArrived()` method to parse JSON commands
+- Supports "encender", "apagar", "parpadear" actions
+
+### Exercise 5.8: MQTT Device Commands
+**Location:** `dispositivo-core/src/main/java/dispositivo/api/mqtt/Dispositivo_APIMQTT.java`
+- Added device-level MQTT command handling
+- Topic: `dispositivo/{deviceId}/comandos` for enable/disable
+
+### Exercise 5.9: Function Status Publishing
+**Location:** `dispositivo-core/src/main/java/dispositivo/componentes/Funcion.java`
+- Automatic MQTT publishing when function state changes
+- Publishes to: `dispositivo/{deviceId}/funcion/{funcionId}/info`
+
+### Exercise 5.10: Traffic Light Controller
+**Location:** `task10-run.sh` and `semaforo-controller.sh`
+- Bash scripts coordinate two traffic light devices
+- Implements intersection control logic with timing sequences
+
+### Exercise 5.11: Master-Slave Controller
+**Location:** `ejercicio_11/src/main/java/ejercicio11/MaestroEsclavoController.java`
+- Standalone application implementing master-slave replication
+- Monitors master device and replicates state changes to slaves
+- Separate Maven module with its own build configuration
+
 ## Exercises Overview
 
 ### Exercise 5.1: Add Third Function
@@ -184,22 +244,79 @@ mosquitto_pub -h localhost -t "es/upv/inf/muiinf/ina/dispositivo/ttmi050/funcion
   -m '{"id":"f1","estado":"ON"}'
 ```
 
-## Running Devices
+## Building the Project
 
-### Virtual Device (Any Platform)
-```bash
-java -jar INA-Seminarios.jar <device-id> <ip> <rest-port> <mqtt-broker>
+### Quick Build (All Platforms)
 
-# Example
-java -jar INA-Seminarios.jar ttmi051 localhost 8182 tcp://localhost:1883
+**Windows:**
+```cmd
+build.bat
 ```
 
-### Physical Device (Raspberry Pi)
-Requires Pi4J2 libraries and GPIO access:
+**macOS/Linux:**
 ```bash
-# Must run with sudo for GPIO access
-sudo java -jar dispositivo-pi4j2.jar ttmi051 ttmi051.iot.upv.es 8182 tcp://ttmi008.iot.upv.es:1883
+./build.sh
 ```
+
+### Manual Build with Maven
+```bash
+# Clean and compile all modules
+mvn clean compile
+
+# Run tests
+mvn test
+
+# Create executable JARs
+mvn package
+```
+
+## Running the Applications
+
+### Core Device Application (Virtual Device)
+The core device requires 4 arguments: deviceId, deviceIP, REST port, and MQTT broker URL.
+
+```bash
+# Build first
+mvn clean package
+
+# Run with required arguments
+java -jar dispositivo-core/target/dispositivo-core-1.0.0.jar <deviceId> <deviceIP> <rest-port> <mqttBroker>
+
+# Example:
+java -jar dispositivo-core/target/dispositivo-core-1.0.0.jar ttmi051 localhost 8182 tcp://localhost:1883
+```
+
+### Pi4J Device Application (Raspberry Pi)
+Same arguments as core device, but with Pi4J GPIO support for physical LEDs:
+
+```bash
+# On Raspberry Pi (requires sudo for GPIO access)
+sudo java -jar dispositivo-pi4j/target/dispositivo-pi4j-1.0.0.jar <deviceId> <deviceIP> <rest-port> <mqttBroker>
+
+# Example:
+sudo java -jar dispositivo-pi4j/target/dispositivo-pi4j-1.0.0.jar ttmi051 192.168.1.100 8182 tcp://localhost:1883
+```
+
+### Ejercicio 11 - Master-Slave MQTT Controller
+This exercise implements a master-slave pattern using MQTT communication:
+
+```bash
+# Build the exercise
+cd ejercicio_11
+mvn clean package
+
+# Run with required arguments
+java -jar target/maestro-esclavo-1.0.0.jar <broker> <maestroId> <esclavo1,esclavo2,...> [funcion]
+
+# Example:
+java -jar target/maestro-esclavo-1.0.0.jar tcp://localhost:1883 ttmi050 ttmi051,ttmi052 f1
+```
+
+**Arguments:**
+- `broker`: MQTT broker URL (e.g., tcp://localhost:1883)
+- `maestroId`: ID of the master device
+- `esclavos`: Comma-separated list of slave device IDs
+- `funcion`: Function ID to control (optional, defaults to "f1")
 
 ## API Reference
 
@@ -277,7 +394,3 @@ set JAVA_HOME=C:\Program Files\Java\jdk-11
 - **Pi4J Version**: Uses Pi4J v2 with PIGPIO drivers
 - **MQTT Library**: Eclipse Paho MQTT v3
 - **REST Framework**: Restlet framework
-
-## License
-
-Educational project for UPV Intelligent Environments (INA) course.
