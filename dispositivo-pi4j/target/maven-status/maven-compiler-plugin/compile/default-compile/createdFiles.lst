@@ -1,0 +1,5 @@
+dispositivo/componentes/pi4j2/FuncionPi4Jv2.class
+dispositivo/componentes/pi4j2/ScheduledSignallerWorker$CheckEvents.class
+dispositivo/pi4j2/iniciador/DispositivoIniciadorPi4Jv2.class
+dispositivo/componentes/pi4j2/ISignallable.class
+dispositivo/componentes/pi4j2/ScheduledSignallerWorker.class
